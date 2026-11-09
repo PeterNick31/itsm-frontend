@@ -29,6 +29,8 @@ El cliente maneja `401` cerrando la sesión y presenta los errores `403` como fa
 
 Mantén `VITE_DEMO_MODE=true` mientras el endpoint de login real no esté integrado y probado. Cámbialo a `false` en Amplify solo cuando `/auth/login` esté disponible.
 
+Para el entorno del grupo, usa las URLs de las APIs desplegadas en `dev` y `us-east-1`. El navegador se conecta a las APIs; la publicación y el consumo de SNS/SQS los realizan los microservicios, no el frontend.
+
 ## Estructura para colaborar
 
 ```text
