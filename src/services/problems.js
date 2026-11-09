@@ -53,16 +53,31 @@ export async function listProblems({
       paginacion: { limite, siguiente: end < items.length ? String(end) : null },
     };
   }
-  const { data } = await http.get(`${baseUrl()}/problemas`, {
-    params: {
-      estado: estado || undefined,
-      prioridad: prioridad || undefined,
-      responsable_id: responsable_id || undefined,
-      limite,
-      siguiente: siguiente || undefined,
-    },
-  });
-  return data;
+  const items = [];
+  let cursor = siguiente;
+  const seenCursors = new Set(cursor ? [cursor] : []);
+  while (items.length < limite) {
+    const { data } = await http.get(`${baseUrl()}/problemas`, {
+      params: {
+        estado: estado || undefined,
+        prioridad: prioridad || undefined,
+        responsable_id: responsable_id || undefined,
+        limite: limite - items.length,
+        siguiente: cursor || undefined,
+      },
+    });
+    if (!Array.isArray(data.data)) {
+      throw new Error("La respuesta de Problemas no contiene una lista de resultados válida.");
+    }
+    items.push(...data.data);
+    cursor = data.paginacion?.siguiente || null;
+    if (cursor && seenCursors.has(cursor)) {
+      throw new Error("La API de Problemas repitió un cursor de paginación.");
+    }
+    if (cursor) seenCursors.add(cursor);
+    if (!cursor) break;
+  }
+  return { data: items, paginacion: { limite, siguiente: cursor } };
 }
 
 export async function getProblem(id) {

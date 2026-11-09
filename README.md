@@ -27,6 +27,8 @@ Las URLs deben ser la base de la API, sin añadir `/problemas` o `/auth/login`; 
 
 El cliente maneja `401` cerrando la sesión y presenta los errores `403` como falta de permisos; verifica que el API incluya mensajes de error compatibles con `{"error":{"mensaje":"..."}}`.
 
+Mantén `VITE_DEMO_MODE=true` mientras el endpoint de login real no esté integrado y probado. Cámbialo a `false` en Amplify solo cuando `/auth/login` esté disponible.
+
 ## Estructura para colaborar
 
 ```text
