@@ -21,6 +21,7 @@ Copia `.env.example` a `.env.local` y configura, cuando estén disponibles:
 VITE_DEMO_MODE=false
 VITE_API_AUTH=https://.../dev
 VITE_API_PROBLEMAS=https://.../dev
+VITE_API_CAMBIOS=https://.../dev
 ```
 
 Las URLs deben ser la base de la API, sin añadir `/problemas` o `/auth/login`; los servicios agregan esas rutas. El login real obtiene el JWT de `/auth/login`, y el cliente HTTP adjunta `Authorization: Bearer ...`. Una respuesta 401 cierra la sesión. No guardes secretos en variables `VITE_*`, porque se incluyen en el código público del navegador.
@@ -41,7 +42,7 @@ src/
     dashboard/   KPIs y resumen
     problems/    módulo del integrante 2
     incidents/   agregar aquí el módulo del integrante 1
-    changes/     agregar aquí el módulo del integrante 3
+    changes/     módulo del integrante 3 (lista, detalle, aprobación, calendario)
     requests/    agregar aquí el módulo del integrante 4
     users/       agregar aquí el módulo del integrante 5
   services/      cliente HTTP e integración de APIs
