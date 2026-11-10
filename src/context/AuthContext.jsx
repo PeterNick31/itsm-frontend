@@ -14,7 +14,8 @@ function readStoredUser() {
       localStorage.removeItem(STORAGE_KEY);
       return null;
     }
-    return stored;
+    // Se guarda la sesión completa ({ token, user }); el contexto expone solo user.
+    return stored?.user ?? null;
   } catch {
     localStorage.removeItem(STORAGE_KEY);
     return null;
