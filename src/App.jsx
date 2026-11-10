@@ -5,6 +5,9 @@ import LoginPage from "./modules/auth/LoginPage.jsx";
 import DashboardPage from "./modules/dashboard/DashboardPage.jsx";
 import ProblemsPage from "./modules/problems/ProblemsPage.jsx";
 import ProblemDetailPage from "./modules/problems/ProblemDetailPage.jsx";
+import ChangesPage from "./modules/changes/ChangesPage.jsx";
+import ChangeDetailPage from "./modules/changes/ChangeDetailPage.jsx";
+import ChangeCalendarPage from "./modules/changes/ChangeCalendarPage.jsx";
 
 function Protected({ children }) {
   const { user } = useAuth();
@@ -27,6 +30,9 @@ export default function App() {
         <Route index element={<DashboardPage />} />
         <Route path="problemas" element={<ProblemsPage />} />
         <Route path="problemas/:id" element={<ProblemDetailPage />} />
+        <Route path="cambios" element={<ChangesPage />} />
+        <Route path="cambios/calendario" element={<ChangeCalendarPage />} />
+        <Route path="cambios/:id" element={<ChangeDetailPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
