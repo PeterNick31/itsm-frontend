@@ -63,7 +63,7 @@ export default function ProblemsPage() {
     <div className="page-content">
       <div className="page-heading">
         <div><p className="eyebrow">GESTIÓN ITSM</p><h1>Problemas</h1><p className="muted">Investiga causas raíz y documenta soluciones conocidas.</p></div>
-        <button className="button button-primary" onClick={() => setShowForm(!showForm)}>{showForm ? "Cancelar" : "+ Nuevo problema"}</button>
+        <button className={`button ${showForm ? "button-ghost" : "button-primary"}`} onClick={() => setShowForm(!showForm)}>{showForm ? "Cancelar" : "+ Nuevo problema"}</button>
       </div>
       {error && <div className="alert alert-error" role="alert">{error}</div>}
       {showForm && (

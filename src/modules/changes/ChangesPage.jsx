@@ -84,7 +84,7 @@ export default function ChangesPage() {
         </div>
         <div className="detail-actions">
           <Link className="button button-secondary" to="/cambios/calendario">Calendario</Link>
-          <button className="button button-primary" onClick={() => setShowForm(!showForm)}>{showForm ? "Cancelar" : "+ Nuevo cambio"}</button>
+          <button className={`button ${showForm ? "button-ghost" : "button-primary"}`} onClick={() => setShowForm(!showForm)}>{showForm ? "Cancelar" : "+ Nuevo cambio"}</button>
         </div>
       </div>
       {error && <div className="alert alert-error" role="alert">{error}</div>}

@@ -122,7 +122,7 @@ export default function ChangeDetailPage() {
         <>
           <div className="page-heading">
             <div>
-              <p className="eyebrow">{change.cambio_id} · {change.tipo}</p>
+              <p className="eyebrow"><span className="mono">{change.cambio_id}</span> · {change.tipo}</p>
               <h1>{change.titulo}</h1>
               <p className="muted">{change.descripcion || "Sin descripción."}</p>
             </div>
@@ -182,7 +182,7 @@ export default function ChangeDetailPage() {
                 </>
               )}
               <div className="form-actions form-full">
-                <button type="button" className="button button-secondary" onClick={() => setPanel(null)}>Cancelar</button>
+                <button type="button" className="button button-ghost" onClick={() => setPanel(null)}>Cancelar</button>
                 <button className={`button ${panel === "rechazar" ? "button-danger" : "button-primary"}`} disabled={busy}>
                   {busy ? "Guardando…" : { editar: "Guardar cambios", rechazar: "Confirmar rechazo", programar: "Guardar ventana", implementar: "Confirmar implementación" }[panel]}
                 </button>
@@ -212,9 +212,9 @@ export default function ChangeDetailPage() {
               <p className="detail-label">Riesgo</p>
               <RiskTag riesgo={change.riesgo} />
               <p className="detail-label">Solicitante</p>
-              <strong>{change.solicitante_id}</strong>
+              <strong className="mono">{change.solicitante_id}</strong>
               <p className="detail-label">Aprobador</p>
-              <strong>{change.aprobador_id || "Pendiente"}</strong>
+              <strong className={change.aprobador_id ? "mono" : undefined}>{change.aprobador_id || "Pendiente"}</strong>
             </article>
             <article className="panel detail-card">
               <p className="eyebrow">VENTANA</p>

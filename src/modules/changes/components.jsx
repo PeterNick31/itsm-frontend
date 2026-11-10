@@ -29,7 +29,7 @@ export function ChangeRows({ items }) {
           <span className="problem-row-main">
             <strong>{item.titulo}</strong>
             <small>
-              {item.cambio_id} · {item.tipo}
+              <span className="mono">{item.cambio_id}</span> · {item.tipo}
               {item.ventana_inicio ? ` · Ventana ${formatDateTime(item.ventana_inicio)}` : ""}
               {item.problema_id ? ` · ${item.problema_id}` : ""}
             </small>

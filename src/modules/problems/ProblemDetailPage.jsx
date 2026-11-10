@@ -65,7 +65,7 @@ export default function ProblemDetailPage() {
       {problem && (
         <>
           <div className="page-heading">
-            <div><p className="eyebrow">{problem.problema_id}</p><h1>{problem.titulo}</h1><p className="muted">{problem.descripcion || "Sin descripción."}</p></div>
+            <div><p className="eyebrow"><span className="mono">{problem.problema_id}</span></p><h1>{problem.titulo}</h1><p className="muted">{problem.descripcion || "Sin descripción."}</p></div>
             <div className="detail-actions">
               {problem.estado === "EN_ANALISIS" && <button className="button button-secondary" onClick={() => setShowCauseForm(!showCauseForm)}>{showCauseForm ? "Cancelar causa raíz" : "Registrar causa raíz"}</button>}
               {nextStates[problem.estado] && problem.estado !== "EN_ANALISIS" && <button className="button button-primary" disabled={busy} onClick={advance}>{busy ? "Actualizando…" : `Avanzar a ${nextStates[problem.estado].replaceAll("_", " ")}`}</button>}
@@ -80,7 +80,7 @@ export default function ProblemDetailPage() {
             </form>
           )}
           <section className="detail-grid">
-            <article className="panel detail-card"><p className="eyebrow">ESTADO ACTUAL</p><span className={`status-badge status-${problem.estado}`}>{problem.estado.replaceAll("_", " ")}</span><p className="detail-label">Prioridad</p><strong>{problem.prioridad}</strong><p className="detail-label">Responsable</p><strong>{problem.responsable_id || "Sin asignar"}</strong></article>
+            <article className="panel detail-card"><p className="eyebrow">ESTADO ACTUAL</p><span className={`status-badge status-${problem.estado}`}>{problem.estado.replaceAll("_", " ")}</span><p className="detail-label">Prioridad</p><span className={`priority-badge priority-${problem.prioridad}`}>{problem.prioridad}</span><p className="detail-label">Responsable</p><strong className={problem.responsable_id ? "mono" : undefined}>{problem.responsable_id || "Sin asignar"}</strong></article>
             <article className="panel detail-card"><p className="eyebrow">ANÁLISIS</p><p className="detail-label">Causa raíz</p><p>{problem.causa_raiz || "Pendiente de investigación."}</p><p className="detail-label">Workaround</p><p>{problem.workaround || "Aún no se ha documentado una solución temporal."}</p></article>
             <article className="panel detail-card detail-wide"><p className="eyebrow">INCIDENTES VINCULADOS</p>{problem.incidentes_ids?.length ? problem.incidentes_ids.map((incident) => <span className="incident-chip" key={incident}>{incident}</span>) : <p className="muted">No hay incidentes vinculados todavía.</p>}</article>
           </section>

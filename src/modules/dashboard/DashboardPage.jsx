@@ -69,7 +69,7 @@ export function ProblemRows({ items }) {
           <span className="priority-dot" data-priority={item.prioridad} aria-label={`Prioridad ${item.prioridad}`} />
           <span className="problem-row-main">
             <strong>{item.titulo}</strong>
-            <small>{item.problema_id} · {item.incidentes_ids?.length || 0} incidentes vinculados</small>
+            <small><span className="mono">{item.problema_id}</span> · {item.incidentes_ids?.length || 0} incidentes vinculados</small>
           </span>
           <span className={`status-badge status-${item.estado}`}>{item.estado.replaceAll("_", " ")}</span>
           <span className="row-chevron" aria-hidden="true">›</span>

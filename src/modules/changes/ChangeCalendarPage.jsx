@@ -121,7 +121,7 @@ export default function ChangeCalendarPage() {
                 <span className={`risk-dot risk-dot-${item.riesgo}`} />
                 <span className="problem-row-main">
                   <strong>{item.titulo}</strong>
-                  <small>{item.cambio_id} · {new Intl.DateTimeFormat("es", { dateStyle: "medium", timeStyle: "short" }).format(new Date(item.ventana_inicio))}</small>
+                  <small><span className="mono">{item.cambio_id}</span> · {new Intl.DateTimeFormat("es", { dateStyle: "medium", timeStyle: "short" }).format(new Date(item.ventana_inicio))}</small>
                 </span>
                 <ChangeStatus estado={item.estado} />
                 <span className="row-chevron" aria-hidden="true">›</span>
