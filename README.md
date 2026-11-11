@@ -1,6 +1,6 @@
 # itsm-frontend
 
-Aplicación React + Vite para el SaaS ITSM. Incluye la base compartida, acceso de demostración, dashboard y módulo de Problemas. Los módulos de Incidentes, Cambios, Solicitudes y Usuarios se pueden añadir después, cada uno en su carpeta bajo `src/modules/`.
+Aplicación React + Vite para el SaaS ITSM. Incluye la base compartida, acceso de demostración, dashboard y los módulos de Problemas, Cambios y Solicitudes (con catálogo). Los módulos de Incidentes y Usuarios se pueden añadir después, cada uno en su carpeta bajo `src/modules/`.
 
 ## Ejecutar sin esperar al equipo
 
@@ -22,6 +22,7 @@ VITE_DEMO_MODE=false
 VITE_API_AUTH=https://.../dev
 VITE_API_PROBLEMAS=https://.../dev
 VITE_API_CAMBIOS=https://.../dev
+VITE_API_SOLICITUDES=https://.../dev
 ```
 
 Las URLs deben ser la base de la API, sin añadir `/problemas` o `/auth/login`; los servicios agregan esas rutas. El login real obtiene el JWT de `/auth/login`, y el cliente HTTP adjunta `Authorization: Bearer ...`. Una respuesta 401 cierra la sesión. No guardes secretos en variables `VITE_*`, porque se incluyen en el código público del navegador.
@@ -43,7 +44,7 @@ src/
     problems/    módulo del integrante 2
     incidents/   agregar aquí el módulo del integrante 1
     changes/     módulo del integrante 3 (lista, detalle, aprobación, calendario)
-    requests/    agregar aquí el módulo del integrante 4
+    requests/    módulo del integrante 4 (solicitudes, detalle, catálogo de servicios)
     users/       agregar aquí el módulo del integrante 5
   services/      cliente HTTP e integración de APIs
   shared/        layout y componentes compartidos
@@ -56,3 +57,19 @@ Cada persona trabaja en `src/modules/{su_modulo}` y registra sus rutas en `src/A
 Conecta el repositorio GitHub en Amplify Hosting y usa la rama `main`. Amplify detectará `amplify.yml`, instalará dependencias con `npm ci` y publicará `dist/`. Añade `VITE_DEMO_MODE` y las URLs públicas de API en las variables de entorno de Amplify. Para usar `npm ci`, conserva y sube `package-lock.json` generado por `npm install`.
 
 En Amplify Hosting, configura una regla de reescritura para que las rutas de React funcionen al recargar la página: **Source** `/<*>`, **Target** `/index.html`, **Status** `200 (Rewrite)`. Verifica que las rutas de archivos estáticos sigan sirviéndose desde `dist/`.
+
+## Módulo Solicitudes
+
+Rutas: `/solicitudes` (lista, filtro por estado, nueva solicitud), `/solicitudes/:id` (detalle y acciones) y `/solicitudes/catalogo` (catálogo de servicios). Usa `VITE_API_SOLICITUDES` (URL base, sin `/solicitudes`).
+
+Flujo de estados (contrato v1.1): `EN_APROBACION → APROBADA → COMPLETADA`, y `EN_APROBACION → RECHAZADA | CANCELADA`.
+
+| Acción | Quién | Desde |
+|---|---|---|
+| Crear solicitud | Todos (nace `EN_APROBACION`, o `APROBADA` si el servicio no requiere aprobación) | — |
+| Aprobar / Rechazar (con motivo) | ADMIN | `EN_APROBACION` |
+| Marcar completada | ADMIN, AGENTE | `APROBADA` |
+| Cancelar | Dueño o ADMIN | `EN_APROBACION` |
+| Crear / editar / desactivar servicios | ADMIN | — |
+
+El SOLICITANTE solo ve sus propias solicitudes (lo impone la API; el frontend solo refleja los permisos). Los eventos SNS/SQS están pospuestos en esta fase, por lo que el frontend no depende de notificaciones ni de la completación automática por `cambio.implementado`.

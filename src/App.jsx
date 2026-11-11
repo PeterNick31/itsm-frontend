@@ -8,6 +8,9 @@ import ProblemDetailPage from "./modules/problems/ProblemDetailPage.jsx";
 import ChangesPage from "./modules/changes/ChangesPage.jsx";
 import ChangeDetailPage from "./modules/changes/ChangeDetailPage.jsx";
 import ChangeCalendarPage from "./modules/changes/ChangeCalendarPage.jsx";
+import RequestsPage from "./modules/requests/RequestsPage.jsx";
+import RequestDetailPage from "./modules/requests/RequestDetailPage.jsx";
+import CatalogPage from "./modules/requests/CatalogPage.jsx";
 
 function Protected({ children }) {
   const { user } = useAuth();
@@ -33,6 +36,9 @@ export default function App() {
         <Route path="cambios" element={<ChangesPage />} />
         <Route path="cambios/calendario" element={<ChangeCalendarPage />} />
         <Route path="cambios/:id" element={<ChangeDetailPage />} />
+        <Route path="solicitudes" element={<RequestsPage />} />
+        <Route path="solicitudes/catalogo" element={<CatalogPage />} />
+        <Route path="solicitudes/:id" element={<RequestDetailPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

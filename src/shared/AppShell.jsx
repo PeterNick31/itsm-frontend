@@ -30,7 +30,7 @@ export default function AppShell() {
           <NavLink to="/problemas" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}><span className="nav-icon">◈</span>Problemas</NavLink>
           <span className="nav-link nav-disabled" title="Se integrará cuando esté listo el módulo del equipo"><span className="nav-icon">◉</span>Incidentes <small>Pronto</small></span>
           <NavLink to="/cambios" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}><span className="nav-icon">↗</span>Cambios</NavLink>
-          <span className="nav-link nav-disabled" title="Se integrará cuando esté listo el módulo del equipo"><span className="nav-icon">▤</span>Solicitudes <small>Pronto</small></span>
+          <NavLink to="/solicitudes" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}><span className="nav-icon">▤</span>Solicitudes</NavLink>
         </nav>
         <div className="sidebar-bottom"><span className="online-dot" />Todos los sistemas operativos</div>
       </aside>
