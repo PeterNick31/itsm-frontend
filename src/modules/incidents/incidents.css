@@ -1,0 +1,20 @@
+.incident-state { display: inline-block; }
+.incident-NUEVO { color: #5265b7; background: #ecf0ff; }
+.incident-ASIGNADO { color: #8f651e; background: #fff2dc; }
+.incident-EN_PROGRESO { color: #7253c4; background: #f2edff; }
+.incident-RESUELTO { color: #267c5a; background: #e6f5ed; }
+.incident-CERRADO { color: #67788f; background: #eef1f5; }
+.incident-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+.incident-actions > label { min-width: 185px; flex: 1; }
+.incident-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.incident-meta > span:not(.status-badge) { background: #f4f6fb; color: #6c7a93; border-radius: 7px; padding: 7px 9px; font-size: 10px; }
+.incident-state-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 10px; }
+.incident-state-count { background: #f8faff; border: 1px solid #edf0f8; border-radius: 9px; padding: 14px 12px; }
+.incident-state-count strong { display: block; font: 700 20px Manrope, sans-serif; color: #263855; margin: 5px 0 2px; }
+.incident-state-count span { color: #72819a; font-size: 10px; }
+.incident-comment { padding: 12px 0; border-top: 1px solid #edf1f6; }
+.incident-comment p { margin: 8px 0 0; white-space: pre-wrap; color: #34425a; font-size: 11px; line-height: 1.6; }
+.incident-comment small { color: #8e9aae; font-size: 10px; }
+.incident-description { white-space: pre-wrap; overflow-wrap: anywhere; }
+.incident-section-actions { margin-top: 14px; }
+@media(max-width: 800px) { .incident-state-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
