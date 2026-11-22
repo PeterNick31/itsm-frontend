@@ -1,6 +1,6 @@
 # itsm-frontend
 
-Aplicación React + Vite para el SaaS ITSM. Incluye la base compartida, acceso de demostración, dashboard y los módulos de Problemas, Cambios y Solicitudes (con catálogo). Los módulos de Incidentes y Usuarios se pueden añadir después, cada uno en su carpeta bajo `src/modules/`.
+Aplicación React + Vite del SaaS ITSM multi-tenant. Incluye autenticación, dashboard y módulos de Incidentes, Problemas, Cambios y Solicitudes (con catálogo). Consume las APIs REST desplegadas en AWS mediante JWT y un cliente HTTP compartido.
 
 ## Ejecutar sin esperar al equipo
 
@@ -15,14 +15,15 @@ Abre la URL que muestra Vite. El modo demostración viene activado (`VITE_DEMO_M
 
 ## Conectar la API
 
-Copia `.env.example` a `.env.local` y configura, cuando estén disponibles:
+Copia `.env.example` a `.env.local` y configura las URLs de los servicios desplegados:
 
 ```text
 VITE_DEMO_MODE=false
-VITE_API_AUTH=https://.../dev
-VITE_API_PROBLEMAS=https://.../dev
-VITE_API_CAMBIOS=https://.../dev
-VITE_API_SOLICITUDES=https://.../dev
+VITE_API_AUTH=https://ftpgbn0604.execute-api.us-east-1.amazonaws.com/dev
+VITE_API_INCIDENTES=https://k9foy6e6i5.execute-api.us-east-1.amazonaws.com/dev
+VITE_API_PROBLEMAS=https://ieh1sacjvh.execute-api.us-east-1.amazonaws.com/dev
+VITE_API_CAMBIOS=https://tzrftvpbkd.execute-api.us-east-1.amazonaws.com/dev
+VITE_API_SOLICITUDES=https://80gyj3m2r8.execute-api.us-east-1.amazonaws.com/dev
 ```
 
 Las URLs deben ser la base de la API, sin añadir `/problemas` o `/auth/login`; los servicios agregan esas rutas. El login real obtiene el JWT de `/auth/login`, y el cliente HTTP adjunta `Authorization: Bearer ...`. Una respuesta 401 cierra la sesión. No guardes secretos en variables `VITE_*`, porque se incluyen en el código público del navegador.
@@ -42,15 +43,29 @@ src/
     auth/        login
     dashboard/   KPIs y resumen
     problems/    módulo del integrante 2
-    incidents/   agregar aquí el módulo del integrante 1
+    incidents/   lista, detalle y gestión de incidentes
     changes/     módulo del integrante 3 (lista, detalle, aprobación, calendario)
     requests/    módulo del integrante 4 (solicitudes, detalle, catálogo de servicios)
-    users/       agregar aquí el módulo del integrante 5
+    users/       espacio reservado para gestión de usuarios
   services/      cliente HTTP e integración de APIs
   shared/        layout y componentes compartidos
 ```
 
 Cada persona trabaja en `src/modules/{su_modulo}` y registra sus rutas en `src/App.jsx`. Mantén las carpetas `context`, `services` y `shared` estables y acuerda cambios con el grupo para evitar conflictos.
+
+## Integraciones verificadas
+
+En el entorno AWS `dev` se comprobaron:
+
+- Inicio de sesión real mediante `itsm-auth`.
+- Consulta del dashboard y los módulos de Incidentes, Problemas, Cambios y Solicitudes.
+- Aislamiento entre tenants mediante JWT y Lambda Authorizer.
+- Flujo `Incidentes -> Problemas -> Cambios -> Problemas -> Incidentes`.
+- Flujo `Solicitudes -> Cambios -> Solicitudes`.
+
+La publicación y el consumo de SNS/SQS ocurren exclusivamente en el backend.
+
+La compilación local de Vite se verificó correctamente. El despliegue público en Amplify requiere comprobar por separado la última compilación y las variables de entorno de la aplicación alojada en la cuenta AWS del integrante responsable.
 
 ## Despliegue en Amplify
 
@@ -72,4 +87,4 @@ Flujo de estados (contrato v1.1): `EN_APROBACION → APROBADA → COMPLETADA`, y
 | Cancelar | Dueño o ADMIN | `EN_APROBACION` |
 | Crear / editar / desactivar servicios | ADMIN | — |
 
-El SOLICITANTE solo ve sus propias solicitudes (lo impone la API; el frontend solo refleja los permisos). Los eventos SNS/SQS están pospuestos en esta fase, por lo que el frontend no depende de notificaciones ni de la completación automática por `cambio.implementado`.
+El SOLICITANTE solo ve sus propias solicitudes (lo impone la API; el frontend refleja los permisos). Los eventos SNS/SQS están habilitados en el backend. Se verificó que una solicitud de cambio estándar se completa automáticamente después de implementar su RFC vinculado.
